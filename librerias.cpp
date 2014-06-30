@@ -2,5 +2,6 @@
 #include <conio.h>
 main ()
 {
+	cout<<"hola";
 	getch();
 }
