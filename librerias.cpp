@@ -24,5 +24,9 @@ cout<<"Ingrese el nombre del evento";
     cin>>mievento.fechafina.tm_mday;
     cin>>mievento.fechafina.tm_mon;
     cin>>mievento.fechafina.tm_year;
+    cout<<"Ingrese la hh/mm de finalizacion\n";
+     cin>>mievento.fechafin.tm_hour ;
+    cin>>mievento.fechafin.tm_min ;
+
 	getch();
 }
