@@ -1,0 +1,204 @@
+/*Agenda de tareas
+          *ESCUELA SUPERIOR POLITECNICA
+          *  DE CHIMBORAZO
+
+//....................DOCUMENTACION.................................................
+
+/*TEMA: Agenda para guardar y consultar tareas.
+*OBJETIVO: Elaborar un programa que permita guardar tareas del dia
+*deacuerdo a una tarea fijada y a la vez consultar todas las actividades ingresadas
+* ya sea por hora o por dia.
+*FECHA: 06/06/2013.
+AUTOR(S):Victor Vera e Isaac Torres.*/
+
+
+//........................LIBRERIAS..................................................
+
+ #include <iostream.h>
+ #include <stdlib.h>
+ #include <conio.h>
+ #include <string.h>
+
+
+struct agenda  // inizializamos el registro llamado agenda.
+{
+//Declaracion de las variables dentro de la estructura.
+char fecha[30];
+char hora[30];
+char evento[30];
+char lugar[30];
+char buscahora[30];//Buscar los eventos por hora
+char buscafecha[30];//Buscar los eventos por fecha
+
+
+
+};
+struct agenda a[30]; //Introducimos un vector dentro del registro agenda.
+int i;   //La variable de los vectores
+int n;   //La dimensión de los eventos
+int op; //Controla las opciones del menu
+
+
+
+void eventos()  //Funcion "MENU" del programa (evento).
+{
+
+do
+ {
+//Especificaciones de la funcion "MENU"(evento), que muestra por pantalla las opciones existentes.
+ clrscr();
+ cout<<"PROGRAMA PARA CREAR TAREAS EN UNA FECHA Y HORA ESPECIFICA\n";
+ cout<<"\n";
+ cout<< "Por Favor seleccione la opcion que ud desea.\n";
+ cout<< "\n";
+ cout<<"1.-Crear tareas en la Agenda"<<endl;
+ cout<< "\n";
+ cout<<"2.-Indicar todas las tareas agregadas"<<endl;
+ cout<< "\n";
+ cout<<"3.-Buscar tareas por hora fijada"<<endl;
+ cout<< "\n";
+ cout<<"4.-Buscar tareas por fecha fijada"<<endl;
+ cout<< "\n";
+ cout<<"5.-Salir del programa"<<endl;
+ cout<<"\n";
+
+
+ 		cin>>op;
+      cout<<"\n";
+
+
+ 		switch(op)
+ 	{
+   			case 1: //Asignacion de sentencias en caso que el usuario seleccione la opcion 1.
+   				{
+
+                cout<<"Por Favor ingrese la cantidad de tareas que desea agregar a su agenda"<<endl;
+                cout<<"\n";
+                cout<<"NOTA: La cantidad ingrasada de tareas debe ser deacuerdo al mes que desea editar sus tareas\n";
+                cin>>n;
+               for (i=1;i<=n;i++)
+               {
+               cout<<"Ingrese la fecha para crear la tarea  "  << i <<endl;
+               cout<<"\n";
+               cin>>a[i].fecha;
+               cout<<"Ahora ingrese la hora para terminar de crear la tarea"<<endl;
+               cout<<"\n";
+               cin>>a[i].hora;
+               cout<<"Ingrese el nombre de la tarea "<<endl;
+               cout<<"\n";
+               cin>>a[i].evento;
+               cout<<"Ingrese el lugar a desarrollarse la tarea "<<endl;
+               cout<<"\n";
+               cin>>a[i].lugar;
+               cout<<endl<<endl;
+               cout<<"Tarea creada con exito....!\n";
+               cout<<"\n";
+
+               }
+
+               	getch();
+               	break;
+               }
+
+   			case 2: //Mostrar en pantalla todas las tareas craadas.
+                 {
+                         cout<<"Todas las tareas creadas por ud son:"<<endl<<endl;
+                         cout<<"\n";
+                         for (i=1;i<=n;i++)
+                 				{   //Imprimimos las tareas creadas
+                  				 cout<<"Fecha  : "<<a[i].fecha<<endl;
+                               cout<<"\n";
+                  				 cout<<"Hora   : "<<a[i].hora<<endl;
+                               cout<<"\n";
+                  				 cout<<"Tarea : "<<a[i].evento<<endl;
+                               cout<<"\n";
+                  				 cout<<"Lugar de la tarea  : "<<a[i].lugar<<endl<<endl;
+                               cout<<"\n";
+                        	}
+                       
+                  getch();
+                  break;
+                 }
+            case 3: //Buscador de tareas por hora.
+                  {
+                     int k;
+                  	k=1;
+                  	cout<<"Ingrese la hora para buscar las tareas asignadas en esa hora"<<endl;
+                     cout<<"\n";
+                     cin>>a[k].buscahora;
+                   for (i=1;i<=n;i++)
+
+                 	{
+
+                 			if (strcmp(a[k].buscahora,a[i].hora)==0)//Sentencia Auxiliar para buscar en el vector que esta dentro de la estructura.
+                        {
+                         cout<<"\nLas tareas creadas para la hora "<<a[i].hora<<" son:"<<endl<<endl;
+                         cout<<"\n";
+                         cout<<"Fecha  : "<<a[i].fecha<<endl;
+                         cout<<"\n";
+                  	    cout<<"Tarea : "<<a[i].evento<<endl;
+                         cout<<"\n";
+                         cout<<"Lugar de la tara  : "<<a[i].lugar<<endl<<endl;
+                         cout<<"\n";
+                         }
+
+                  }
+                  getch();
+                  break;
+                  }
+
+            case 4:
+                  {
+                   int j;
+                  	j=1;
+                  	cout<<"Ingrese la fecha para buscar las tareas asignadas en esa fecha"<<endl;
+                     cout<<"\n";
+                     cin>>a[j].buscafecha;
+                   for (i=1;i<=n;i++)
+
+                 	{
+
+                 			if (strcmp(a[j].buscafecha,a[i].fecha)==0)
+                        {
+                         cout<<"\nLas tareas del dia  "<<a[i].fecha<<" son:"<<endl<<endl;
+                         cout<<"\n";
+                         cout<<"HORA   : "<<a[i].hora<<endl;
+                         cout<<"\n";
+                  	    cout<<"EVENTO : "<<a[i].evento<<endl;
+                         cout<<"\n";
+                         cout<<"LUGAR  : "<<a[i].lugar<<endl<<endl;
+                         cout<<"\n";
+                         }
+
+                  }
+                  getch();
+                  break;
+                  }
+            case 5://Opcion para abondar la ejecucion del programa.
+            		{
+            			cout<<"Programa Finalizado"<<endl;
+
+            			break;
+           			 }
+            default:
+            		{
+
+
+            			break;
+           			 }
+ 
+   }
+
+
+ }
+   while (op!=5); //Salida del programa.
+
+ }
+//...........................PROGRAMA PRINCIPAL....................................
+ void main()
+ {
+ eventos();
+
+ }
+
+//............................FIN DEL PROGRAMA......................................
