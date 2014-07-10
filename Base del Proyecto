@@ -1,0 +1,201 @@
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+
+typedef struct alumno
+{
+char nombre[20 ];
+char direccion[100 ];
+int nota;
+} Alumno;
+
+Alumno alumnos[100 ];
+int total = 0 ;
+
+void cargar(), guardar(), insertar(Alumno info);
+void ingresar(), eliminar(), mostrar(), ordenar();
+char menu(void);
+
+int main(int)
+{
+
+cargar();
+char op;
+
+for(;;)
+{
+switch(op=menu())
+{
+case '1':
+ingresar();
+printf("evento almacenado exitosamente\n");
+getch();
+break;
+case '2':
+eliminar();
+getch();
+break;
+case '3':
+ordenar();
+printf("Se han ordenado los eventos\n");
+getch();
+break;
+case '4':
+mostrar();
+getch();
+break;
+case '5':
+break;
+default :
+printf("Opcion no valida\n");
+getch();
+break;
+}
+
+if(op=='5') break;
+
+}
+
+guardar();
+}
+
+
+void insertar(Alumno info)
+{
+strcpy(alumnos[total].nombre, info.nombre);
+strcpy(alumnos[total].direccion, info.direccion);
+alumnos[total].nota = info.nota;
+total++;
+}
+
+void cargar()
+{
+Alumno info;
+FILE *fp;
+
+fp=fopen("eventos.txt","r");
+if(fp==NULL)
+{
+return;
+}
+
+while(!feof(fp))
+{
+if(fread(&info, sizeof(Alumno), 1, fp)!=1) break;
+insertar(info);
+}
+
+fclose(fp);
+}
+
+void guardar()
+{
+Alumno info;
+FILE *fp;
+
+fp=fopen("eventos.txt","w");
+if(fp==NULL)
+{
+printf("No se puede abrir el recordatorio\n");
+return;
+}
+
+for(int i=0; i<total; i++)
+fwrite(&alumnos[i], sizeof(Alumno), 1, fp);
+
+fclose(fp);
+}
+
+void ingresar()
+{
+Alumno info;
+
+printf(" Ingrese el nombre del evento: \n"); gets(info.nombre);
+printf(" Ingrese el contenido: \n"); gets(info.direccion);
+printf(" Ingresar la fecha : \n"); scanf("%d", &(info.nota));
+insertar(info);
+}
+
+void eliminar()
+{
+char nombre[20 ];
+int i;
+
+printf(" Ingrese evento a  eliminar: \n");
+gets(nombre);
+
+for(i=0; i<total; i++)
+if(!strcmp(alumnos[i].nombre, nombre))
+{
+// Recorre registros posteriores
+for(int j=i+1; j<total; j++)
+{
+strcpy(alumnos[j-1].nombre, alumnos[j].nombre);
+strcpy(alumnos[j-1].direccion, alumnos[j].direccion);
+alumnos[j-1].nota = alumnos[j].nota;
+}
+
+printf(" Evento eliminado \n");
+total--;
+break;
+}
+
+if(i==total)
+printf("Evento no encontrado\n");
+}
+
+void mostrar()
+{
+printf("--- Listado de eventos ---\n\n\n");
+printf("Num.      -       TITULO ------------- NOTA                       FECHA\n\n\n");
+for(int i=0; i<total; i++)
+{
+printf("%d - ", i+1);
+printf("%s - ", alumnos[i].nombre);
+printf("%s - ", alumnos[i].direccion);
+printf("%d\n", alumnos[i].nota);
+}
+}
+
+void ordenar()
+{
+int i, j;
+Alumno temp;
+
+for(i=0; i<total-1; i++)
+{
+for(j=i+1; j<total; j++)
+if(strcmp(alumnos[i].nombre, alumnos[j].nombre)>0)
+{
+// Copia en variable temporal datos actuales
+strcpy(temp.nombre, alumnos[i].nombre);
+strcpy(temp.direccion, alumnos[i].direccion);
+temp.nota = alumnos[i].nota;
+
+// Intercambia informacion
+strcpy(alumnos[i].nombre, alumnos[j].nombre);
+strcpy(alumnos[i].direccion, alumnos[j].direccion);
+alumnos[i].nota = alumnos[j].nota;
+
+strcpy(alumnos[j].nombre, temp.nombre);
+strcpy(alumnos[j].direccion, temp.direccion);
+alumnos[j].nota = temp.nota;
+}
+}
+}
+
+char menu(void)
+{
+clrscr();
+char c;
+
+printf("(1)Ingresar el nombre del evento\n\n ");
+printf("(2)Eliminar eventos\n\n");
+printf("(3)Ordenar los eventos ingresados\n\n");
+printf("(4)Mostrar eventos\n\n");
+printf("(5)Salir\n\n");
+printf(" Seleccion: \n\n");
+c =getche();
+printf("");
+return(c);
+}
